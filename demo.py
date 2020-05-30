@@ -125,16 +125,12 @@ def coral_tpu():
     
     
     bg = cv2.imread("bg.jpg")
-    #bg - cv2.resize(bg,(328,2464))
     bg = cv2.flip(bg,0)
-    #bg = imutils.resize(bg, width=500)
  
 
     # prepare the image for object detection by converting (1) it from
     # BGR to RGB channel ordering and then (2) from a NumPy array to PIL
     # image format
-    #bg = cv2.cvtColor(bg, cv2.COLOR_RGB2BGR)
-    #bg= Image.fromarray(bg)
     # loop over the results
     for r in results:
     # extract the bounding box and box and predicted class label
@@ -143,7 +139,6 @@ def coral_tpu():
         label = labels[r.label_id]
         if label == "bottle":
                 bg = cv2.imread("bg.jpg")
-    #bg - cv2.resize(bg,(328,2464))
                 bg = cv2.flip(bg,0)
                 bottle= orig[startY:endY,startX:endX]
                 width = endX-startX
@@ -154,24 +149,22 @@ def coral_tpu():
                 hight_e = hight-hight_s
                 i = i+1
                 
-                #cv2.imshow("image",bottle)
+  
                 cv2.imwrite("bb.jpg",bottle)
                 
-                #bottle= Image.fromarray(bottle)
+
                 bg[166-hight_s:166+hight_e,208-width_s:208+width_e]=bottle
                 yolo(bg)
-                #bg.paste(bottle,(1000,1000,1000+width,1000+hight))
+
                 # draw the bounding box and label on the image
                 cv2.rectangle(orig, (startX, startY), (endX, endY),
                         (225, 150, 150), -1)
                 y = startY - 15 if startY - 15 > 15 else startY + 15
                 text = "{}: {:.2f}%".format(label, r.score * 100)
-                #cv2.putText(orig, text, (startX, y),
-                        #cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-    #cv2.imshow("1",orig)
+
     cv2.imwrite("1_1.jpg",orig)
     orig_1 = Image.fromarray(orig)
-    #orig_1 = Image.fromarray(cv2.cvtColor(orig,cv2.COLOR_BGR2RGB))
+
     print("s")
     results = model.DetectWithImage(orig_1, threshold=args["confidence"],keep_aspect_ratio=True, relative_coord=False)
     print("end")
@@ -183,7 +176,7 @@ def coral_tpu():
         label = labels[r.label_id]
         if label == "bottle":
                 bg = cv2.imread("bg.jpg")
-    #bg - cv2.resize(bg,(328,2464))
+
                 bg = cv2.flip(bg,0)
                 bottle= orig[startY:endY,startX:endX]
                 width = endX-startX
@@ -194,14 +187,14 @@ def coral_tpu():
                 hight_e = hight-hight_s
                 i = i+1
                 
-                #cv2.imshow("image",bottle)
+
                 cv2.imwrite("bb.jpg",bottle)
                 
-                #bottle= Image.fromarray(bottle)
+
                 bg[166-hight_s:166+hight_e,208-width_s:208+width_e]=bottle
                 yolo(bg)
-                #bg.paste(bottle,(1000,1000,1000+width,1000+hight))
-                # draw the bounding box and label on the image
+
+                # draw the white box 
                 cv2.rectangle(orig, (startX, startY), (endX, endY),
                         (225, 150, 150), -1)
                 y = startY - 15 if startY - 15 > 15 else startY + 15
@@ -473,10 +466,6 @@ while flag:
     
     print("COOLER LOCKED")
     c_locked=True
-    #if(a=="q"):
-    #  flag=False
-    #if(a=="reset"):
-    #  bottle_counter=reseter.copy()
 
 vs.stop()
 
